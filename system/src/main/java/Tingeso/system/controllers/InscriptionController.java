@@ -5,10 +5,7 @@ import Tingeso.system.entities.SubjectEntity;
 import Tingeso.system.services.InscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -25,5 +22,9 @@ public class InscriptionController {
         return inscriptionService.toSubject(codSubjects);
     }
 
-
+    @PostMapping("/post")
+    public ResponseEntity<String> enroll(@RequestBody ArrayList<SubjectEntity> subjects){
+        inscriptionService.enroll(subjects);
+        return ResponseEntity.ok("All good");
+    }
 }

@@ -2,8 +2,6 @@ package Tingeso.system.services;
 
 import Tingeso.system.entities.SubjectEntity;
 import Tingeso.system.respositories.InscriptionRepository;
-import Tingeso.system.respositories.SubjectRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +13,13 @@ public class InscriptionService {
 
     @Autowired
     InscriptionRepository inscriptionRepository;
-    @Autowired
-    private SubjectRepository subjectRepository;
 
+    // used multiple times
+    public String code_student;
+
+    // Get cods of subjects student can enroll
     public ArrayList<Integer> codSubjects(String cod_alumno){
+        code_student = cod_alumno;
 
         // cursed subjects
         ArrayList<Integer> enrolled = inscriptionRepository.groupOne(cod_alumno);
@@ -50,6 +51,7 @@ public class InscriptionService {
         return finalGroup;
     }
 
+    // transform the finalGroup into a format more accessible for front
     public ArrayList<SubjectEntity> toSubject(ArrayList<Integer> codsSubjects){
 
         ArrayList<SubjectEntity> subjects = new ArrayList<>();
@@ -70,7 +72,22 @@ public class InscriptionService {
             subjects.add(aux);
         }
 
-
         return subjects;
+    }
+
+    // add nota null to enrolled subjects so they dont reappear
+    // as available for enrollment
+    public void enroll(ArrayList<SubjectEntity> subjects){
+
+        ArrayList<Integer> codes_subjects = new ArrayList<>();
+
+        for (SubjectEntity subject : subjects){
+            codes_subjects.add(inscriptionRepository.byName(subject.getName()));
+        }
+
+        for (Integer code : codes_subjects){
+            inscriptionRepository.setEnrolled(code_student, code);
+            inscriptionRepository.addStudent(code);
+        }
     }
 }
