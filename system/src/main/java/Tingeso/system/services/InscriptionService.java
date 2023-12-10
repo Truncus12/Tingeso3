@@ -85,8 +85,19 @@ public class InscriptionService {
             codes_subjects.add(inscriptionRepository.byName(subject.getName()));
         }
 
+        ArrayList<Float> aux;
+
         for (Integer code : codes_subjects){
-            inscriptionRepository.setEnrolled(code_student, code);
+            aux = inscriptionRepository.grades(code, code_student);
+
+            // if there is no 'nota' already with the subject im enrolling
+            if (aux.isEmpty()){
+                // im creating a new 'nota'
+                inscriptionRepository.setEnrolledNew(code_student,code);
+            } else {
+                // im changing a 'nota'
+                inscriptionRepository.setEnrolled(code_student, code);
+            }
             inscriptionRepository.addStudent(code);
         }
     }

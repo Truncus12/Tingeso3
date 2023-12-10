@@ -62,6 +62,13 @@ public interface InscriptionRepository extends JpaRepository<InscriptionEntity, 
     @Transactional
     void setEnrolled(@Param("cod_alumno") String cod_alumno, @Param("cod_asig") Integer cod_asig);
 
+    // add a new 'nota' to indicate a subject has been enrolled
+    @Modifying
+    @Query(value = "INSERT INTO notas (anio, sem, cod_alumno, cod_asig, nota, inscrito) " +
+            "VALUES (2023,2,:cod_alumno,:cod_asig,NULL,TRUE)",nativeQuery = true)
+    @Transactional
+    void setEnrolledNew(@Param("cod_alumno") String cod_alumno, @Param("cod_asig") Integer cod_asig);
+
     // +1 to number of enrolled students
     @Modifying
     @Query(value = "UPDATE plan_estudios SET estudiantes_inscritos = estudiantes_inscritos+1 " +
