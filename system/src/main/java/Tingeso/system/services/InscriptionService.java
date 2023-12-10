@@ -112,4 +112,13 @@ public class InscriptionService {
         }
         return passed;
     }
+
+    public ArrayList<String> enrolledSubjects(String cod_alumno){
+        ArrayList<Integer> codPassed = inscriptionRepository.codEnrolled(cod_alumno);
+        ArrayList<String> enrolled = new ArrayList<>();
+        for (Integer cod: codPassed){
+            enrolled.add(inscriptionRepository.nameFromCod(cod));
+        }
+        return enrolled;
+    }
 }

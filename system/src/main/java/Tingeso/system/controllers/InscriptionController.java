@@ -39,4 +39,9 @@ public class InscriptionController {
     public ArrayList<String> passedSubjects(@PathVariable("cod_alumno") String cod_alumno){
         return inscriptionService.passedSubjects(cod_alumno);
     }
+
+    @GetMapping("/enrolled/{cod_alumno}")
+    public ArrayList<String> enrolledSubjects(@PathVariable("cod_alumno") String cod_alumno){
+        return inscriptionService.enrolledSubjects(cod_alumno);
+    }
 }

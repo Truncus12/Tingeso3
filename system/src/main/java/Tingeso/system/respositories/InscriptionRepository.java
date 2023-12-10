@@ -77,4 +77,8 @@ public interface InscriptionRepository extends JpaRepository<InscriptionEntity, 
     // get subject name from cod_asig
     @Query(value = "SELECT nom_asig FROM plan_estudios WHERE cod_asig = :cod_asig", nativeQuery = true)
     String nameFromCod(@Param("cod_asig") Integer cod_asig);
+
+    // get subject enrolled
+    @Query(value = "SELECT cod_asig FROM notas WHERE cod_alumno = :cod_alumno AND inscrito IS TRUE", nativeQuery = true)
+    ArrayList<Integer> codEnrolled(@Param("cod_alumno") String cod_alumno);
 }
