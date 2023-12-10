@@ -75,7 +75,7 @@ public class InscriptionService {
         return subjects;
     }
 
-    // add nota null to enrolled subjects so they dont reappear
+    // so subjects dont reappear
     // as available for enrollment
     public void enroll(ArrayList<SubjectEntity> subjects){
 
@@ -89,5 +89,17 @@ public class InscriptionService {
             inscriptionRepository.setEnrolled(code_student, code);
             inscriptionRepository.addStudent(code);
         }
+    }
+
+    // get max amount of subjects available for enrollment for a student
+    // considering the student level
+    public Integer maxSubjects(String cod_alumno){
+        Integer level = inscriptionRepository.level(cod_alumno);
+
+        return switch (level) {
+            case 1, 9, 10 -> 5;
+            case 11 -> 1;
+            default -> 6;
+        };
     }
 }
