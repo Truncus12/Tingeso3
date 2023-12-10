@@ -132,4 +132,14 @@ public class InscriptionService {
         }
         return enrolled;
     }
+
+    // schedule given a subject name
+    public ArrayList<String> schedule(String nom_asig){
+        return inscriptionRepository.schedule(nom_asig);
+    }
+
+    // grades given a subject name
+    public ArrayList<Float> grades(String nom_asig, String cod_alumno){
+        return inscriptionRepository.grades(inscriptionRepository.byName(nom_asig), cod_alumno);
+    }
 }
