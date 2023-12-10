@@ -29,8 +29,14 @@ public class InscriptionController {
         return ResponseEntity.ok("All good");
     }
 
-    @GetMapping("/level/{cod_alumno}")
-    public Integer maxSubjects(@Param("cod_alumo") String cod_alumno){
+    @GetMapping("/max/{cod_alumno}")
+    public Integer maxSubjects(@PathVariable("cod_alumno") String cod_alumno){
         return inscriptionService.maxSubjects(cod_alumno);
+    }
+
+    /* MALLA */
+    @GetMapping("/passed/{cod_alumno}")
+    public ArrayList<String> passedSubjects(@PathVariable("cod_alumno") String cod_alumno){
+        return inscriptionService.passedSubjects(cod_alumno);
     }
 }

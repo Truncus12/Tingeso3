@@ -102,4 +102,14 @@ public class InscriptionService {
             default -> 6;
         };
     }
+
+    /* MALLA */
+    public ArrayList<String> passedSubjects(String cod_alumno){
+        ArrayList<Integer> codPassed = inscriptionRepository.groupThree(cod_alumno);
+        ArrayList<String> passed = new ArrayList<>();
+        for (Integer cod: codPassed){
+            passed.add(inscriptionRepository.nameFromCod(cod));
+        }
+        return passed;
+    }
 }

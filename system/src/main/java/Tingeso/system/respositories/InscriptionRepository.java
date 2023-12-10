@@ -71,5 +71,10 @@ public interface InscriptionRepository extends JpaRepository<InscriptionEntity, 
 
     // get level from a student
     @Query(value = "SELECT nivel FROM estudiantes WHERE rut = :cod_alumno", nativeQuery = true)
-    Integer level(@Param("cod_alumno") String cod_laumno);
+    Integer level(@Param("cod_alumno") String cod_alumno);
+
+    /* MALLA */
+    // get subject name from cod_asig
+    @Query(value = "SELECT nom_asig FROM plan_estudios WHERE cod_asig = :cod_asig", nativeQuery = true)
+    String nameFromCod(@Param("cod_asig") Integer cod_asig);
 }
