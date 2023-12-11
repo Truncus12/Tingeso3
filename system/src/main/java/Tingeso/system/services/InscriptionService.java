@@ -3,6 +3,7 @@ package Tingeso.system.services;
 import Tingeso.system.entities.SubjectEntity;
 import Tingeso.system.respositories.InscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,7 +78,27 @@ public class InscriptionService {
 
     // so subjects dont reappear
     // as available for enrollment
-    public void enroll(ArrayList<SubjectEntity> subjects){
+    public ResponseEntity<String> enroll(ArrayList<SubjectEntity> subjects){
+
+        // check that there are no schedules that collide
+        Integer collide = 0;
+        // for every subject get the schedule
+        for (SubjectEntity subject : subjects){
+            collide = 0;
+            ArrayList<String> schedule = subject.getSchedule();
+            for (String block : schedule){
+                for (SubjectEntity subjectEntity : subjects){
+                    if (subjectEntity.getSchedule().contains(block)){
+                        collide++;
+                        // the only constant colission is between the subject and itself
+                        // subject = subjectEntity
+                    }
+                }
+            }
+            if (collide > 1){
+                return ResponseEntity.badRequest().body("Schedule collision");
+            }
+        }
 
         ArrayList<Integer> codes_subjects = new ArrayList<>();
 
@@ -100,6 +121,8 @@ public class InscriptionService {
             }
             inscriptionRepository.addStudent(code);
         }
+
+        return ResponseEntity.ok("All good");
     }
 
     // get max amount of subjects available for enrollment for a student

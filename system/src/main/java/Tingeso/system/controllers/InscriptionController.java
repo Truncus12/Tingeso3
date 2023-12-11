@@ -24,8 +24,7 @@ public class InscriptionController {
 
     @PostMapping("/post")
     public ResponseEntity<String> enroll(@RequestBody ArrayList<SubjectEntity> subjects){
-        inscriptionService.enroll(subjects);
-        return ResponseEntity.ok("All good");
+        return inscriptionService.enroll(subjects);
     }
 
     @GetMapping("/max/{cod_alumno}")
